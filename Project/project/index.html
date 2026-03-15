@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Coffee Culture — Discover the World of Coffee</title>
+  <meta name="description" content="Coffee Culture — guides, history, brewing methods and a café finder." />
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --coffee-brown: #4B2E05;
+      --cream-beige: #F5E6CC;
+      --accent-green: #355E3B;
+      --white: #FFFFFF;
+      --muted: #6b5e53;
+      --max-width: 1100px;
+      --radius: 10px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:"Open Sans",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    body{
+      color:#222;
+      background:linear-gradient(180deg,var(--cream-beige) 0%, #fbf8f6 100%);
+      line-height:1.45;
+    }
+
+    .container{max-width:var(--max-width);margin:0 auto;padding:0 1.25rem}
+
+    header{
+      background:var(--white);
+      border-bottom:1px solid #e6e0d6;
+      position:sticky;top:0;z-index:50;
+      backdrop-filter: blur(4px);
+    }
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:1rem 0}
+    .brand{display:flex;align-items:center;gap:.75rem}
+    .logo{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,var(--coffee-brown),#6a3d1a);display:flex;align-items:center;justify-content:center;color:var(--cream-beige);font-weight:700;font-family:"Playfair Display"}
+    .site-title{font-family:"Playfair Display";font-size:1.05rem;color:var(--coffee-brown)}
+    nav ul{list-style:none;margin:0;padding:0;display:flex;gap:1rem;align-items:center}
+    nav a{color:var(--coffee-brown);text-decoration:none;font-weight:600;font-family:"Lato"}
+    .menu-toggle{display:none;background:transparent;border:0;font-size:1.25rem;cursor:pointer}
+
+    .hero{display:grid;grid-template-columns:1fr 420px;align-items:center;padding:3rem 0 2rem;gap:1.25rem}
+    .hero-inner{display:flex;flex-direction:column;gap:1rem}
+    .hero h1{font-family:"Playfair Display";margin:0;font-size:2.2rem;color:var(--coffee-brown)}
+    .hero p{margin:0;max-width:60ch;color:var(--muted)}
+    .hero-visual{border-radius:var(--radius);height:240px;background-image:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.06)),url('assets/hero-coffee.jpg');background-size:cover;background-position:center}
+
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+
+    .card{background:var(--white);border-radius:var(--radius);padding:1rem;box-shadow:0 6px 20px rgba(75,46,5,0.06)}
+    .card h3{margin:.25rem 0 .5rem;font-family:"Playfair Display";color:var(--coffee-brown)}
+    .card p{margin:0;color:var(--muted)}
+    .muted{color:var(--muted)}
+    .center{display:flex;align-items:center;justify-content:center}
+
+    .brews{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+    .brew-card{display:flex;flex-direction:column;gap:.5rem}
+    .brew-card img{width:100%;height:150px;object-fit:cover;border-radius:8px}
+
+    .map-wrap{height:320px;border-radius:8px;overflow:hidden;background:#faf6f3}
+
+    footer{padding:2rem 0;color:var(--muted)}
+
+    form{display:grid;gap:.75rem}
+    input,textarea,button,select{font-family:inherit;padding:.6rem;border:1px solid #ddd;border-radius:6px}
+    button{background:var(--coffee-brown);color:var(--white);border:0;padding:.6rem 1rem;cursor:pointer;border-radius:6px}
+
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:1rem;z-index:2000}
+    .modal{background:white;max-width:520px;width:100%;border-radius:8px;padding:1.25rem;position:relative;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr;padding:2rem 0}
+      nav ul{display:none}
+      .menu-toggle{display:inline-block}
+    }
+    @media (max-width:520px){
+      .hero h1{font-size:1.6rem}
+    }
+
+    .breadcrumbs{font-size:.9rem;color:var(--muted);margin-bottom:.5rem}
+    a.card{color:inherit}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  </style>
+</head>
+<body>
+  <a class="sr-only" href="#main">Skip to main content</a>
+
+  <header role="banner">
+    <div class="container topbar" role="navigation" aria-label="Top navigation">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">CC</div>
+        <div>
+          <div class="site-title">Coffee Culture</div>
+          <div style="font-size:.78rem;color:var(--muted)">Discover the world of coffee</div>
+        </div>
+      </div>
+
+      <nav aria-label="Main navigation">
+        <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-controls="main-nav">☰ Menu</button>
+        <ul id="main-nav">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#history">History</a></li>
+          <li><a href="#brewing">Brewing Methods</a></li>
+          <li><a href="#world">World</a></li>
+          <li><a href="#finder">Finder</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container" role="main">
+
+    <section id="home" class="hero" aria-labelledby="hero-heading">
+      <div class="hero-inner">
+        <h1 id="hero-heading">Discover the World of Coffee</h1>
+        <p>Welcome to Coffee Culture — your guide to the art, science and rituals around coffee. Explore brewing methods, cultural traditions, and find cafés near you.</p>
+        <div style="display:flex;gap:.5rem">
+          <a class="card" href="#brewing" style="text-decoration:none;display:inline-block"> <strong>Start Brewing</strong><div class="muted">Learn methods & techniques</div></a>
+          <a class="card" href="#finder" style="text-decoration:none;display:inline-block"> <strong>Find a Café</strong><div class="muted">Search local cafés</div></a>
+        </div>
+      </div>
+
+      <div class="hero-visual" role="img" aria-label="Close-up of roasted coffee beans and a pour-over setup"></div>
+    </section>
+
+    <section id="history" style="padding:1.5rem 0">
+      <div class="breadcrumbs">Home &gt; History of Coffee</div>
+      <h2 style="font-family:'Playfair Display';color:var(--coffee-brown)">From Bean to Brew — The History of Coffee</h2>
+      <p class="muted">A concise timeline of coffee's journey through time.</p>
+      <article class="card" style="margin-top:1rem">
+        <ol>
+          <li><strong>9th century</strong> — Origins in Ethiopia (legend of Kaldi the goat herder).</li>
+          <li><strong>15th–16th century</strong> — Coffee houses across the Middle East and Europe.</li>
+          <li><strong>17th–18th century</strong> — Coffee plantations spread globally.</li>
+          <li><strong>20th century</strong> — Specialty coffee movements arise.</li>
+        </ol>
+      </article>
+    </section>
+
+    <section id="brewing" style="padding:1.5rem 0">
+      <div class="breadcrumbs">Home &gt; Brewing Methods</div>
+      <h2 style="font-family:'Playfair Display';color:var(--coffee-brown)">How to Brew the Perfect Cup</h2>
+      <p class="muted">Step-by-step guides and video tutorials for common brew styles.</p>
+
+      <div class="brews" style="margin-top:1rem">
+        <article class="brew-card card" tabindex="0" aria-labelledby="espressoTitle">
+          <img src="assets/espresso.jpg" alt="A shot of espresso in a demitasse" />
+          <h3 id="espressoTitle">Espresso</h3>
+          <p class="muted">Short extraction, intense flavor. Ideal dose: 18–20g.</p>
+          <a href="#" data-brew="espresso" class="open-brew">Read method</a>
+        </article>
+
+        <article class="brew-card card" tabindex="0" aria-labelledby="pourTitle">
+          <img src="assets/pourover.jpg" alt="Pour-over kettle pouring water into a V60 dripper" />
+          <h3 id="pourTitle">Pour-Over</h3>
+          <p class="muted">Controlled bloom and pour technique. Great for clarity.</p>
+          <a href="#" data-brew="pourover" class="open-brew">Read method</a>
+        </article>
+
+        <article class="brew-card card" tabindex="0" aria-labelledby="pressTitle">
+          <img src="assets/frenchpress.jpg" alt="French press with brewed coffee" />
+          <h3 id="pressTitle">French Press</h3>
+          <p class="muted">Full-bodied brew using immersion. Coarser grind recommended.</p>
+          <a href="#" data-brew="press" class="open-brew">Read method</a>
+        </article>
+
+        <article class="brew-card card" tabindex="0" aria-labelledby="coldTitle">
+          <img src="assets/coldbrew.jpg" alt="A glass of cold brew with ice" />
+          <h3 id="coldTitle">Cold Brew</h3>
+          <p class="muted">Low-acid, smooth — steeped in cold water for 12–24 hours.</p>
+          <a href="#" data-brew="cold" class="open-brew">Read method</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="world" style="padding:1.5rem 0">
+      <div class="breadcrumbs">Home &gt; Coffee Around the World</div>
+      <h2 style="font-family:'Playfair Display';color:var(--coffee-brown)">Global Coffee Traditions</h2>
+      <p class="muted">Explore regional rituals, ceremonial cups and local brewing techniques.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 360px;gap:1rem;margin-top:1rem">
+        <div class="card">
+          <div class="muted">Interactive map placeholder — replace with a JS map library in production.</div>
+          <div class="map-wrap" style="margin-top:.75rem;display:flex;align-items:center;justify-content:center">
+            <div class="muted">[Interactive map goes here]</div>
+          </div>
+        </div>
+
+        <aside class="card" aria-label="Highlights">
+          <h3>Highlights</h3>
+          <p class="muted">Click a region on the map to see photos and brewing notes.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="finder" style="padding:1.5rem 0">
+      <div class="breadcrumbs">Home &gt; Café Finder</div>
+      <h2 style="font-family:'Playfair Display';color:var(--coffee-brown)">Find Your Next Cup</h2>
+      <p class="muted">Search cafés near you or browse featured cafés.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:1rem;margin-top:1rem">
+        <div class="card">
+          <label for="locSearch" class="muted">Search city or zip</label>
+          <div style="display:flex;gap:.5rem;margin-top:.5rem">
+            <input id="locSearch" type="search" placeholder="e.g. Brooklyn, NY" aria-label="Search location" />
+            <button id="searchBtn">Search</button>
+          </div>
+
+          <div style="margin-top:1rem">
+            <iframe id="mapFrame" class="map-wrap" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d193571.438!2d-74.1180865!3d40.705825!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1600000000000!5m2!1sen!2sus" style="border:0;width:100%;height:320px" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map with café listings"></iframe>
+          </div>
+        </div>
+
+        <aside class="card">
+          <h3>Featured Cafés</h3>
+          <ul style="padding-left:1rem">
+            <li><strong>The Daily Grind</strong><div class="muted"> — Cozy roastery and espresso bar.</div></li>
+            <li><strong>Bean & Brush</strong><div class="muted"> — Known for latte art and pastries.</div></li>
+            <li><strong>Rituals Coffee</strong><div class="muted"> — Single-origin pour-over specialists.</div></li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section id="about" style="padding:1.5rem 0">
+      <div class="breadcrumbs">Home &gt; About</div>
+      <h2 style="font-family:'Playfair Display';color:var(--coffee-brown)">About Coffee Culture</h2>
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:1rem;margin-top:1rem">
+        <div>
+          <p class="muted">Coffee Culture is a small project dedicated to demystifying coffee and celebrating its global culture.</p>
+
+          <h3>Contact</h3>
+          <form id="contactForm" action="#" onsubmit="alert('Form submission disabled for demo'); return false;">
+            <label for="name" class="muted">Name</label>
+            <input id="name" name="name" type="text" required />
+            <label for="email" class="muted">Email</label>
+            <input id="email" name="email" type="email" required />
+            <label for="message" class="muted">Message</label>
+            <textarea id="message" name="message" rows="4"></textarea>
+            <button type="submit">Send</button>
+          </form>
+        </div>
+
+        <aside class="card center">
+          <div>
+            <img src="assets/creator.jpg" alt="Photo of the site creator" style="width:180px;height:120px;object-fit:cover;border-radius:8px;display:block;margin-bottom:.5rem" />
+            <div class="muted">Creator — coffee enthusiast, designer and writer.</div>
+            <div style="margin-top:.75rem">
+              <button id="audioBtn" aria-pressed="false">Play Ambience</button>
+              <audio id="ambience" loop src="assets/cafe-ambience.mp3" preload="none"></audio>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <div id="brewModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="brewModalTitle">
+      <div class="modal" role="document">
+        <button id="modalClose" aria-label="Close" style="position:absolute;top:.5rem;right:.5rem;background:none;border:0;font-size:1.4rem;cursor:pointer">×</button>
+        <h3 id="brewModalTitle" style="font-family:'Playfair Display';color:var(--coffee-brown);margin-top:0"></h3>
+        <div id="brewModalBody" class="muted" style="line-height:1.5"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer role="contentinfo">
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <strong style="color:var(--coffee-brown)">Coffee Culture</strong>
+        <div class="muted">© 2025 — A small project</div>
+      </div>
+      <div style="display:flex;gap:.75rem;align-items:center">
+        <a href="#" aria-label="Instagram" class="muted">Instagram</a>
+        <a href="#" aria-label="Twitter" class="muted">Twitter</a>
+        <a href="#" aria-label="Email" class="muted">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      const menuToggle = document.getElementById('menuToggle');
+      const navList = document.getElementById('main-nav');
+
+      menuToggle?.addEventListener('click', () => {
+        const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+        menuToggle.setAttribute('aria-expanded', String(!expanded));
+        navList.style.display = (navList.style.display === 'flex') ? '' : 'flex';
+      });
+    })();
+
+    const BREW_CONTENT = {
+      espresso: {
+        title: 'Espresso — Method',
+        text: `• Grind: Fine (like table salt)<br>
+               • Dose: 18–20g<br>
+               • Yield: 36–40g<br>
+               • Time: 25–30 seconds<br><br>
+               <strong>Steps:</strong><br>
+               1. Purge & preheat the portafilter.<br>
+               2. Distribute and tamp evenly.<br>
+               3. Start extraction and stop at 36–40g yield.<br>
+               4. Serve immediately.`
+      },
+      pourover: {
+        title: 'Pour-Over — Method',
+        text: `• Grind: Medium-fine<br>
+               • Ratio: 1:16 coffee-to-water<br>
+               • Water Temp: 92–96°C<br><br>
+               <strong>Steps:</strong><br>
+               1. Rinse filter & warm the dripper.<br>
+               2. Add grounds and bloom with 2× dose of water for 30 sec.<br>
+               3. Pour slowly in circles, keeping the bed flat.<br>
+               4. Total brew time: 2:30–3:30.`
+      },
+      press: {
+        title: 'French Press — Method',
+        text: `• Grind: Coarse<br>
+               • Ratio: 1:15<br>
+               • Water Temp: 93–96°C<br><br>
+               <strong>Steps:</strong><br>
+               1. Add coffee and hot water, stir gently.<br>
+               2. Place lid and steep for 4 minutes.<br>
+               3. Plunge slowly and serve.`
+      },
+      cold: {
+        title: 'Cold Brew — Method',
+        text: `• Grind: Coarse<br>
+               • Ratio: 1:5 concentrate (dilute 1:1 to drink)<br>
+               • Brew Time: 12–24 hours<br><br>
+               <strong>Steps:</strong><br>
+               1. Mix grounds and cold water.<br>
+               2. Refrigerate or leave at room temp for 12–24 hours.<br>
+               3. Strain twice (mesh + paper).<br>
+               4. Dilute & serve over ice.`
+      }
+    };
+
+    (function(){
+      const modalBackdrop = document.getElementById('brewModal');
+      const modalTitle = document.getElementById('brewModalTitle');
+      const modalBody = document.getElementById('brewModalBody');
+      const modalClose = document.getElementById('modalClose');
+
+      function openModal(type){
+        const selected = BREW_CONTENT[type];
+        if(!selected) return;
+        modalTitle.innerHTML = selected.title;
+        modalBody.innerHTML = selected.text;
+        modalBackdrop.style.display = 'flex';
+        modalBackdrop.setAttribute('aria-hidden','false');
+        // focus management
+        modalClose.focus();
+      }
+
+      function closeModal(){
+        modalBackdrop.style.display = 'none';
+        modalBackdrop.setAttribute('aria-hidden','true');
+      }
+
+      document.querySelectorAll('.open-brew').forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          e.preventDefault();
+          const type = btn.getAttribute('data-brew');
+          openModal(type);
+        });
+      });
+
+      modalClose.addEventListener('click', closeModal);
+      modalBackdrop.addEventListener('click', (e)=>{
+        if(e.target === modalBackdrop) closeModal();
+      });
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape' && modalBackdrop.style.display === 'flex') closeModal();
+      });
+    })();
+
+    (function(){
+      const searchBtn = document.getElementById('searchBtn');
+      const input = document.getElementById('locSearch');
+      const frame = document.getElementById('mapFrame');
+
+      function lookupMap(){
+        const q = input.value.trim();
+        if(!q){ alert('Enter a city or zip to search'); input.focus(); return; }
+        const encoded = encodeURIComponent(q + ' cafés');
+        frame.src = 'https://www.google.com/maps?q=' + encoded + '&output=embed';
+      }
+
+      searchBtn.addEventListener('click', lookupMap);
+      input.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') lookupMap(); });
+    })();
+
+    (function(){
+      const audio = document.getElementById('ambience');
+      const btn = document.getElementById('audioBtn');
+
+      btn.addEventListener('click', ()=>{
+        if(!audio) return;
+        if(audio.paused){
+          audio.play();
+          btn.textContent = 'Pause Ambience';
+          btn.setAttribute('aria-pressed','true');
+        } else {
+          audio.pause();
+          btn.textContent = 'Play Ambience';
+          btn.setAttribute('aria-pressed','false');
+        }
+      });
+    })();
+
+    (function(){
+      document.querySelectorAll('.card, .brew-card').forEach(el=>{
+        el.addEventListener('keydown', (e)=>{
+          if(e.key === 'Enter') el.querySelector('a')?.click();
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corgi Types Table</title>
+<style>
+    body {
+        background: linear-gradient(180deg, #fffdf6 0%, #ffe7c7 100%);
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 40px 0;
+        text-align: center;
+        color: #4b2e05;
+    }
+
+    .corgi-banner {
+        position: relative;
+        width: 160px;
+        height: 110px;
+        margin: 0 auto 25px auto;
+    }
+
+    .head {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #c58a41;
+        border-radius: 80% 80% 50% 50% / 80% 80% 20% 20%;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+    }
+    .muzzle {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 110px;
+        height: 65px;
+        background: #fffaf2;
+        border-radius: 50% 50% 40% 40% / 60% 60% 30% 30%;
+        box-shadow: inset 0 -4px 0 #d8a55c;
+    }
+
+    .forehead {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 50px;
+        background: #b5742c;
+        border-radius: 80% 80% 40% 40%;
+    }
+
+    .ear {
+        position: absolute;
+        width: 50px;
+        height: 55px;
+        background: #c58a41;
+        border-radius: 50% 50% 0 0;
+        top: -10px;
+        box-shadow: inset 0 -6px 0 #9b5e23;
+        z-index: 0;
+    }
+
+    .ear::after {
+        content: "";
+        position: absolute;
+        width: 70%;
+        height: 70%;
+        background: #ffe5cf;
+        top: 5px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 50% 50% 0 0;
+    }
+
+    .ear.left {
+        left: -10px;
+        transform: rotate(-18deg);
+    }
+
+    .ear.right {
+        right: -10px;
+        transform: rotate(18deg);
+    }
+
+    .eye {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        background: #3b2402;
+        border-radius: 50%;
+        top: 40px;
+        z-index: 2;
+    }
+    .eye.left {
+        left: 45px;
+    }
+    .eye.right {
+        right: 45px;
+    }
+
+    .nose {
+        position: absolute;
+        width: 18px;
+        height: 12px;
+        background: #3b2402;
+        border-radius: 50%;
+        top: 62px;
+        left: 0;
+        right: 0;
+        margin: auto;
+        z-index: 3;
+    }
+
+    .smile {
+        position: absolute;
+        width: 42px;
+        height: 22px;
+        border-bottom: 3px solid #3b2402;
+        border-radius: 0 0 20px 20px;
+        top: 70px;
+        left: 0;
+        right: 0;
+        margin: auto;
+        z-index: 2;
+    }
+
+    .tongue {
+        position: absolute;
+        width: 20px;
+        height: 12px;
+        background: #ff8fa2;
+        border-radius: 10px;
+        top: 78px;
+        left: 0;
+        right: 0;
+        margin: auto;
+        z-index: 1;
+    }
+    table {
+        width: 85%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        border-radius: 15px;
+        overflow: hidden;
+        background-color: #fffaf3;
+        box-shadow: 0 8px 25px rgba(75, 46, 5, 0.2);
+        animation: fadeIn 1.2s ease;
+    }
+
+    caption {
+        caption-side: top;
+        font-size: 2em;
+        font-weight: bold;
+        color: #5a3c09;
+        padding: 20px;
+        background: linear-gradient(90deg, #d8a55c, #c58a41);
+        text-shadow: 1px 1px #fff6e5;
+        letter-spacing: 1px;
+        border-bottom: 4px solid #9b5e23;
+        position: relative;
+    }
+
+    caption::before {
+        content: "🐾🐾";
+        position: absolute;
+        left: 15px;
+        top: 15px;
+        font-size: 1.5em;
+        opacity: 0.8;
+    }
+
+    caption::after {
+        content: "🐶";
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        font-size: 1.5em;
+        opacity: 0.9;
+    }
+
+    thead {
+        background: linear-gradient(90deg, #c58a41, #d8a55c);
+        color: #fffaf3;
+        font-size: 1.1em;
+        letter-spacing: 0.5px;
+    }
+
+    thead th {
+        padding: 14px;
+        border: 2px solid #9b5e23;
+        text-transform: uppercase;
+    }
+
+    tbody td {
+        padding: 12px;
+        text-align: center;
+        border: 1.5px solid #f4e1b9;
+        color: #4b2e05;
+        font-size: 1em;
+        transition: all 0.3s ease;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #fff4e0;
+    }
+
+    tbody tr:hover {
+        background-color: #ffe9cc;
+        transform: scale(1.01);
+    }
+
+    tbody td:first-child {
+        font-weight: bold;
+        color: #8c5219;
+    }
+
+    tfoot {
+        background: linear-gradient(90deg, #c58a41, #d8a55c);
+        color: #fffaf3;
+        font-weight: bold;
+    }
+
+    tfoot td {
+        padding: 10px;
+        border-top: 3px solid #9b5e23;
+        text-align: center;
+        font-size: 1em;
+    }
+
+    table::after {
+        content: "🐾 🐾 🐾 🐾 🐾";
+        display: block;
+        text-align: center;
+        padding: 10px 0;
+        font-size: 1.3em;
+        color: #c58a41;
+        background-color: #fffaf3;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+<body>
+
+<div class="corgi-banner">
+    <div class="ear left"></div>
+    <div class="ear right"></div>
+    <div class="head"></div>
+    <div class="forehead"></div>
+    <div class="muzzle"></div>
+    <div class="eye left"></div>
+    <div class="eye right"></div>
+    <div class="nose"></div>
+    <div class="smile"></div>
+    <div class="tongue"></div>
+</div>
+
+<table>
+    <caption>Corgi Breeds</caption>
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Origin</th>
+            <th>Coat Color</th>
+            <th>Size</th>
+            <th>Temperament</th>
+            <th>Fun Fact</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Pembroke Welsh Corgi</td>
+            <td>Wales</td>
+            <td>Red, Fawn, or Sable</td>
+            <td>Small</td>
+            <td>Friendly & Playful</td>
+            <td>Favorite of Queen Elizabeth II 👑</td>
+        </tr>
+        <tr>
+            <td>Cardigan Welsh Corgi</td>
+            <td>Wales</td>
+            <td>Brindle, Blue Merle</td>
+            <td>Small</td>
+            <td>Loyal & Alert</td>
+            <td>Has a long tail 🐕</td>
+        </tr>
+        <tr>
+            <td>American Corgi</td>
+            <td>USA</td>
+            <td>Merle or Red</td>
+            <td>Small</td>
+            <td>Affectionate</td>
+            <td>Cross between Pembroke & Cardigan ❤️</td>
+        </tr>
+        <tr>
+            <td>Fluffy Corgi</td>
+            <td>Wales</td>
+            <td>Varies</td>
+            <td>Small</td>
+            <td>Gentle & Cuddly</td>
+            <td>Has longer, silky fur ✨</td>
+        </tr>
+        <tr>
+            <td>Mini Corgi</td>
+            <td>Selective Breeding</td>
+            <td>Light Tan</td>
+            <td>Tiny</td>
+            <td>Cheerful</td>
+            <td>Even smaller than regular corgis 🐾</td>
+        </tr>
+    </tbody>
+    <tfoot>
